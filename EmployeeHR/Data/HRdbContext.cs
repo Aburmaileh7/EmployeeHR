@@ -3,17 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeHR.Data
 {
-    public class HRdbContext : DbContext
+    public class HRDbContext : DbContext
     {
-        public HRdbContext(DbContextOptions<HRdbContext> options) : base(options) 
-        {
-            
-        }
-
-
+        public HRDbContext(DbContextOptions<HRDbContext> options) : base(options) { }
         public DbSet<EmployeeModel> Employees { get; set; }
-
         public DbSet<DepartmentModel> Departments { get; set; }
-
     }
 }

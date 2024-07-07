@@ -12,16 +12,10 @@ var app = builder.Build();
 
 builder.Services.AddControllersWithViews();
 
-
-
-IConfiguration configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory
-    .GetCurrentDirectory())
-    .AddJsonFile("appsettings.json").Build();
-
-var connectionString = configuration.GetConnectionString("HRConnectionString");
-
-builder.Services.AddDbContext<HRdbContext>(option => option.UseSqlServer(connectionString));
+ 
+ 
+builder.Services.AddDbContext<HRDbContext>(options => 
+options.UseSqlServer(builder.Configuration.GetConnectionString("HRConnectionString")));
 
 
 
