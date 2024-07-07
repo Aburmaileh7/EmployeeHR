@@ -10,9 +10,6 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 
-
-
-
 builder.Services.AddControllersWithViews();
 
 
