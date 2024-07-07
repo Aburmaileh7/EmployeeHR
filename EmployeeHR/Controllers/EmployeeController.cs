@@ -1,5 +1,6 @@
 ﻿using EmployeeHR.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace EmployeeHR.Controllers
 {
@@ -144,6 +145,32 @@ namespace EmployeeHR.Controllers
                 return View(model);
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Edit(int id, EmployeeModel employee)
+        {
+            try
+            {
+                var model = employees.Where(x => x.Id == id).FirstOrDefault();
+                if (model != null)
+                {
+                    model.Id = employee.Id;
+                    model.FirstName = employee.FirstName;
+                    model.LastName = employee.LastName;
+                    model.HiringDate = employee.HiringDate;
+                    model.DOB = employee.DOB;
+                    model.Salary = employee.Salary;
+                    model.IsActive = employee.IsActive;
+                    model.DepartmentId = employee.DepartmentId;
+                    model.Email = employee.Email;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
 
