@@ -136,25 +136,29 @@ namespace EmployeeHR.Controllers
             }
         }
 
-
         public ActionResult Edit(int id)
-        {
+        { 
             ViewBag.departmentsList = departments;
 
             var model = Employees.Where(x => x.Id == id).FirstOrDefault();
-            if (model != null)
+
+            if(model != null)
             {
                 return View(model);
             }
+
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult Edit(int id, EmployeeModel employee)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id,EmployeeModel employee)
         {
             try
             {
                 var model = Employees.Where(x => x.Id == id).FirstOrDefault();
-                if (model != null)
+
+                if(model != null)
                 {
                     model.Id = employee.Id;
                     model.FirstName = employee.FirstName;
@@ -169,11 +173,18 @@ namespace EmployeeHR.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+
             catch
             {
                 return View();
             }
+
         }
+
+
+
+
+
 
 
 
