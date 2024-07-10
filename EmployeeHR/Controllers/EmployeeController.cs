@@ -7,14 +7,14 @@ namespace EmployeeHR.Controllers
     public class EmployeeController : Controller
     {
 
-        public static List<EmployeeModel> employees = new List<EmployeeModel>
+        public static List<EmployeeModel> Employees = new List<EmployeeModel>
         {
             new EmployeeModel{
                 Id = 1,
                 FirstName="Ali",
                 LastName="Rami",
-                HiringDate=new DateTime(10,12,2024),
-                DOB=new DateTime(10,12,2000),
+                HiringDate=new DateTime(2024,09,10),
+                DOB=new DateTime(2000,10,08),
                 Salary=500,
                 IsActive=true,
                 DepartmentId=1,
@@ -24,8 +24,8 @@ namespace EmployeeHR.Controllers
                 Id = 2,
                 FirstName="salem",
                 LastName="ahmad",
-                HiringDate=new DateTime(20,05,2024),
-                DOB=new DateTime(10,10,2002),
+                HiringDate=new DateTime(2024,02,13),
+                DOB=new DateTime(2002,3,20),
                 Salary=700,
                 IsActive=true,
                 DepartmentId=2,
@@ -35,8 +35,8 @@ namespace EmployeeHR.Controllers
                 Id = 3,
                 FirstName="Amal",
                 LastName="Rami",
-                HiringDate=new DateTime(09,10,2024),
-                DOB=new DateTime(20,10,2000),
+                HiringDate=new DateTime(2024,3,22),
+                DOB=new DateTime(2000,12,03),
                 Salary=500,
                 IsActive=true,
                 DepartmentId=1,
@@ -48,12 +48,12 @@ namespace EmployeeHR.Controllers
         public static List<DepartmentModel> departments = new List<DepartmentModel>
         {
             new DepartmentModel{Id=1,Name="Developer",Abbreviation="Div"},
-            new DepartmentModel{Id=1,Name="Finance",Abbreviation="Fin"}
+            new DepartmentModel{Id=2,Name="Finance",Abbreviation="Fin"}
         };
 
         private EmployeeModel GetEmployee(int id)
         {
-            var model = employees.Where(x => x.Id == id).FirstOrDefault();
+            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
             if (model!= null)
             {
                 return model;
@@ -65,7 +65,7 @@ namespace EmployeeHR.Controllers
         }
         public IActionResult Index()
         {
-            var EmployeeDepartment = (from emp in employees
+            var EmployeeDepartment = (from emp in Employees
                                       join dep in departments on emp.DepartmentId equals dep.Id
                                       select new EmployeeModel
                                       {
@@ -73,12 +73,12 @@ namespace EmployeeHR.Controllers
                                           FirstName = emp.FirstName,
                                           LastName = emp.LastName,
                                           HiringDate = emp.HiringDate,
-                                          DOB = emp.DOB,
+                                         
                                           IsActive = emp.IsActive,
-                                          Salary = emp.Salary,
-                                          Email = emp.Email,
+                                          
                                           DepartmentId = emp.DepartmentId,
-                                          Department = dep
+                                          Department=dep
+                                      
                                       }).ToList();
             return View(EmployeeDepartment);
         }
@@ -87,7 +87,7 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Details(int id)
         {
-            var EmployeeDepartmentModel = (from emp in employees
+            var EmployeeDepartmentModel = (from emp in Employees
                                            join dep in departments on emp.DepartmentId equals dep.Id
                                            select new EmployeeModel
                                            {
@@ -126,7 +126,7 @@ namespace EmployeeHR.Controllers
             {
                 
 
-                employees.Add(employee);
+                Employees.Add(employee);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -135,11 +135,13 @@ namespace EmployeeHR.Controllers
                 return View();
             }
         }
+
+
         public ActionResult Edit(int id)
         {
             ViewBag.departmentsList = departments;
 
-            var model = employees.Where(x => x.Id == id).FirstOrDefault();
+            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
             if (model != null)
             {
                 return View(model);
@@ -151,7 +153,7 @@ namespace EmployeeHR.Controllers
         {
             try
             {
-                var model = employees.Where(x => x.Id == id).FirstOrDefault();
+                var model = Employees.Where(x => x.Id == id).FirstOrDefault();
                 if (model != null)
                 {
                     model.Id = employee.Id;

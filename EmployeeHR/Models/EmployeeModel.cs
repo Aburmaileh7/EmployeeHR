@@ -27,13 +27,13 @@ namespace EmployeeHR.Models
 
         [Required]
         [Display (Name ="Hiring Date")]
-        [DisplayFormat(DataFormatString ="{0:dd.mm.yyyy}")]
+        [DisplayFormat(DataFormatString ="{0:MM.dd.yyyy}")]
         [Column(TypeName = "datetime")]
         public DateTime HiringDate { get; set; }
 
         [Required]
         [Display(Name ="Birth Of Date")]
-        [DisplayFormat(DataFormatString = "{0:dd.mm.yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MM.dd.yyyy}")]
         [Column(TypeName = "datetime")]
         public DateTime DOB { get; set; }
 
