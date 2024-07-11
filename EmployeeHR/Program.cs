@@ -20,9 +20,9 @@ IConfiguration configuration = new ConfigurationBuilder()
     .Build();
 
 var connectionString = configuration.GetConnectionString("HRConnectionString");
- 
-builder.Services.AddDbContext<HRDbContext>(options => 
-options.UseSqlServer(connectionString));
+
+builder.Services.AddDbContext<HRDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
 
 

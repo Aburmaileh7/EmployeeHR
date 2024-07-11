@@ -63,5 +63,7 @@ namespace EmployeeHR.Models
 
         [Display(Name ="Department")]
         public virtual DepartmentModel Department { get; set; }
+
+        public virtual ICollection<PayrollModel> Payrolls { get; set; }
     }
 }
