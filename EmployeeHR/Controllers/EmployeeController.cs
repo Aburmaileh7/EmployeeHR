@@ -181,13 +181,33 @@ namespace EmployeeHR.Controllers
 
         }
 
+        //get
 
+        public ActionResult Delete(int id)
+        {
+            var model = GetEmployee(id);
+            return View(model);
+        }
 
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id , IFormCollection collection)
+        {
+            try
+            {
+                var model = GetEmployee(id);
+                if(model != null)
+                {
+                    Employees.Remove(model);
+                }
 
-
-
-
-
-
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
