@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeHR.Models
 {
-    [Table("payrolls",Schema ="dbo")]
+    [Table("Payrolls",Schema ="dbo")]
     public class PayrollModel
     {
         [Key]
@@ -47,7 +47,7 @@ namespace EmployeeHR.Models
 
         [Required]
         [Display(Name = "TotalSalary")]
-        [Column(TypeName = "decimal(18,3)")]
+        [Column(TypeName = "DateTime")]
         public DateTime TS { get; set; }
 
 

@@ -8,5 +8,6 @@ namespace EmployeeHR.Data
         public HRDbContext(DbContextOptions<HRDbContext> options) : base(options) { }
         public DbSet<EmployeeModel> Employees { get; set; }
         public DbSet<DepartmentModel> Departments { get; set; }
+        public DbSet<PayrollModel> Payrolls { get; set; }
     }
 }

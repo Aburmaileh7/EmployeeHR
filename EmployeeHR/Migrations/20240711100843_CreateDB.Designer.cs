@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeHR.Migrations
 {
     [DbContext(typeof(HRDbContext))]
-    [Migration("20240707102413_CreationDB")]
-    partial class CreationDB
+    [Migration("20240711100843_CreateDB")]
+    partial class CreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,7 +64,7 @@ namespace EmployeeHR.Migrations
 
                     b.Property<string>("Email")
                         .HasMaxLength(100)
-                        .HasColumnType("nvachar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -92,6 +92,47 @@ namespace EmployeeHR.Migrations
                     b.ToTable("Employees", "dbo");
                 });
 
+            modelBuilder.Entity("EmployeeHR.Models.PayrollModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Bonus")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Leaves")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PayrollDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("SSa")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.Property<DateTime>("TS")
+                        .HasColumnType("DateTime");
+
+                    b.Property<decimal>("TotalSalary")
+                        .HasColumnType("decimal(18,3)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Payrolls", "dbo");
+                });
+
             modelBuilder.Entity("EmployeeHR.Models.EmployeeModel", b =>
                 {
                     b.HasOne("EmployeeHR.Models.DepartmentModel", "Department")
@@ -101,6 +142,22 @@ namespace EmployeeHR.Migrations
                         .IsRequired();
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("EmployeeHR.Models.PayrollModel", b =>
+                {
+                    b.HasOne("EmployeeHR.Models.EmployeeModel", "Employee")
+                        .WithMany("Payrolls")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("EmployeeHR.Models.EmployeeModel", b =>
+                {
+                    b.Navigation("Payrolls");
                 });
 #pragma warning restore 612, 618
         }

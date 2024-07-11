@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeHR.Migrations
 {
     /// <inheritdoc />
-    public partial class CreationDB : Migration
+    public partial class CreateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,7 +43,7 @@ namespace EmployeeHR.Migrations
                     Salary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvachar(100)", maxLength: 100, nullable: true)
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,16 +57,54 @@ namespace EmployeeHR.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Payrolls",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    PayrollDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Bonus = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    SSa = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    Leaves = table.Column<double>(type: "float", nullable: true),
+                    TotalSalary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    TS = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payrolls", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payrolls_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalSchema: "dbo",
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
                 schema: "dbo",
                 table: "Employees",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payrolls_EmployeeId",
+                schema: "dbo",
+                table: "Payrolls",
+                column: "EmployeeId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Payrolls",
+                schema: "dbo");
+
             migrationBuilder.DropTable(
                 name: "Employees",
                 schema: "dbo");

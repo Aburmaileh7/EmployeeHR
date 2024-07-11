@@ -6,7 +6,7 @@ namespace EmployeeHR.Models
     [Table("Employees", Schema ="dbo")]
     public class EmployeeModel
     {
-        [Required]
+        
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name ="Employee ID")]
@@ -57,7 +57,7 @@ namespace EmployeeHR.Models
 
         [Display(Name ="Employee Email")]
         [DataType(DataType.EmailAddress)]
-        [Column(TypeName = "nvachar(100)")]
+        [Column(TypeName = "nvarchar(100)")]
         [StringLength(100)]
         public string? Email { get; set; }
 
