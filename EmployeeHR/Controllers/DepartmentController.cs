@@ -24,10 +24,10 @@ namespace EmployeeHR.Controllers
 
 
      
-        public IActionResult Index()
+        public ActionResult Index()
         {
             var departmentList = _dbcontext.Departments.ToList();
-            return View(departmentList);
+            return View(_dbcontext.Departments);
         }
 
 

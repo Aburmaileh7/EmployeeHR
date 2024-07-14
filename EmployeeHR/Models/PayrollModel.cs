@@ -20,6 +20,7 @@ namespace EmployeeHR.Models
         [Required]
         [Display(Name = "payroll date")]
         [Column(TypeName ="datetime")]
+        [DataType(DataType.Date)]
         public DateTime PayrollDate { get; set; }
 
         [Required]
@@ -32,15 +33,15 @@ namespace EmployeeHR.Models
         [Column(TypeName = "decimal(18,3)")]
         public decimal SSa { get; set; }
 
-        [Display(Name = "Leaves")]
+        [Display(Name = "Leaves(In Hours)")]
         [Column(TypeName = "float")]
         public float? Leaves { get; set; }
 
 
         [Required]
-        [Display(Name = "TotalSalary")]
+        [Display(Name = "Net Salary")]
         [Column(TypeName = "decimal(18,3)")]
-        public decimal TotalSalary { get; set; }
+        public decimal NetSalary { get; set; }
 
 
 

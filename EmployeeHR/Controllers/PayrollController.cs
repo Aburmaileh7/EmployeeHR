@@ -22,6 +22,12 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.EmployeeList = _dbContext.Employees.Select(x=> new
+            {
+                Id=x.Id,
+                Name=x.FirstName + " " + x.LastName,
+            }).ToList();
+
             return View();
         }
 
@@ -29,12 +35,42 @@ namespace EmployeeHR.Controllers
         public ActionResult Create(PayrollModel payroll)
         {
             if (payroll != null) 
-            { 
+            {
+                payroll.NetSalary = SalaryCalaulation(payroll);
+
+                if (payroll.NetSalary== 0)
+                {
+                    return View();
+                }
+
+                payroll.TS = DateTime.Now;
+                payroll.CreatedBy = "Logged User";
+
                 _dbContext.Payrolls.Add(payroll);   
                 _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View();
+        }
+
+
+
+
+        private decimal SalaryCalaulation(PayrollModel payroll)
+        {
+            decimal netSalary = 0;
+
+            var employee = _dbContext.Employees.FirstOrDefault(x => x.Id == payroll.EmployeeId);
+            if (employee != null)
+            {
+                var leavesAmount = (employee?.BasicSalary / 30 / 8) * Convert.ToDecimal(payroll.Leaves);
+                netSalary = employee.BasicSalary+payroll.Bonus-payroll.SSa-Convert.ToDecimal(leavesAmount);
+            }
+            else
+            {
+                netSalary = 0;
+            }
+            return netSalary;
         }
     }
 }

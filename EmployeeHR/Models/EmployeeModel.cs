@@ -41,7 +41,7 @@ namespace EmployeeHR.Models
         [Display(Name = "Salary")]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 3)")]
-        public decimal Salary { get; set; }
+        public decimal BasicSalary { get; set; }
 
 
         [Display(Name = "Active")]

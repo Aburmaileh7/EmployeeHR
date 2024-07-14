@@ -101,8 +101,8 @@ namespace EmployeeHR.Controllers
 
             //                          }).ToList();
 
-            var employees = _dbContext.Employees.Include(x => x.Id)
-                                                .OrderBy(x => x.FirstName).ToList();
+            var employees = _dbContext.Employees.Include(x => x.Department).OrderBy(x => x.FirstName).ToList();
+                                                
 
             return View(employees);
         }
@@ -122,7 +122,7 @@ namespace EmployeeHR.Controllers
                                                HiringDate = emp.HiringDate,
                                                DOB = emp.DOB,
                                                IsActive = emp.IsActive,
-                                               Salary = emp.Salary,
+                                               BasicSalary = emp.BasicSalary,
                                                Email = emp.Email,
                                                DepartmentId = emp.DepartmentId,
                                                Department = dep
@@ -190,7 +190,7 @@ namespace EmployeeHR.Controllers
                     model.LastName = employee.LastName;
                     model.HiringDate = employee.HiringDate;
                     model.DOB = employee.DOB;
-                    model.Salary = employee.Salary;
+                    model.BasicSalary = employee.BasicSalary;
                     model.IsActive = employee.IsActive;
                     model.DepartmentId = employee.DepartmentId;
                     model.Email = employee.Email;
