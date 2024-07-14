@@ -7,25 +7,51 @@ namespace EmployeeHR.Controllers
     public class DepartmentController : Controller
     {
 
-        private readonly HRDbContext _dbcontext;
-        public DepartmentController(HRDbContext dbcontext)
+        private DepartmentModel GetDepartment(int id)
         {
-            this._dbcontext = dbcontext;
+            var model = departments.Where(x => x.Id == id).FirstOrDefault();
+            if (model!=null)
+            {
+                return model;
+            }
+            else
+            {
+                return new DepartmentModel();
+            }
         }
+
+        public static List<DepartmentModel> departments = new List<DepartmentModel>
+        {
+             new DepartmentModel{Id=1,Name="Developer",Abbreviation="Div"},
+            new DepartmentModel{Id=2,Name="Finance",Abbreviation="Fin"}
+        };
+
+
+        //private readonly HRDbContext _dbcontext;
+        //public DepartmentController(HRDbContext dbcontext)
+        //{
+        //    this._dbcontext = dbcontext;
+        //}
         public IActionResult Index()
         {
-            return View(_dbcontext.Departments);
+            return View(departments);
         }
 
 
         public ActionResult Edit(int id)
         {
-            var model = _dbcontext.Departments.FirstOrDefault
-                (x => x.Id == id);
+            var model = departments.FirstOrDefault (x => x.Id == id);
+            if(model!= null)
+            {
+                return View("Create", model);
+            }
 
-            return View("Create", model);
+            return RedirectToAction(nameof(Index));
+            
 
         }
+
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -34,7 +60,7 @@ namespace EmployeeHR.Controllers
 
             try
             {
-                var model = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);
+                var model = departments.Where(x => x.Id ==id).FirstOrDefault();
 
                 if (model != null)
                 {
@@ -62,16 +88,23 @@ namespace EmployeeHR.Controllers
         [HttpPost]
         public ActionResult Create(DepartmentModel department)
         {
-
-            _dbcontext.Departments.Add(department);
-            _dbcontext.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var departments = new List<DepartmentModel>();
+                departments.Add(department);
+                //_dbcontext.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
 
         }
 
         public ActionResult Delete(int id)
         {
-            var model = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);
+            var model = GetDepartment(id);
             return View(model);
         }
 
@@ -80,20 +113,30 @@ namespace EmployeeHR.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, DepartmentModel department)
         {
-
-            var model = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);
-            if (model != null)
+            try
             {
-                _dbcontext.Departments.Remove(model);
+                var model = GetDepartment(id);
+                if (model != null)
+                {
+                    departments.Remove(model);
+                }
+
+                return RedirectToAction(nameof(Index));
+
             }
-            return RedirectToAction(nameof(Index));
+            catch
+            {
+                return View();
+            }
+           
+          
         }
 
 
         public ActionResult Details(int id)
         {
-            var model = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);
-            return View(model);
+     
+            return View(departments);
         }
 
 

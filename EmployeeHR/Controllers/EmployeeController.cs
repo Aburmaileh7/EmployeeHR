@@ -9,6 +9,19 @@ namespace EmployeeHR.Controllers
     public class EmployeeController : Controller
     {
 
+        private EmployeeModel GetEmployee(int id)
+        {
+            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
+            if (model != null)
+            {
+                return model;
+            }
+            else
+            {
+                return new EmployeeModel();
+            }
+        }
+
         public static List<EmployeeModel> Employees = new List<EmployeeModel>
         {
             new EmployeeModel{
@@ -60,18 +73,7 @@ namespace EmployeeHR.Controllers
         //    this._dbContext = dbContext;
         //}
 
-        private EmployeeModel GetEmployee(int id)
-        {
-            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
-            if (model!= null)
-            {
-                return model;
-            }
-            else
-            {
-                return new EmployeeModel();
-            }
-        }
+       
         public IActionResult Index()
         {
             var EmployeeDepartment = (from emp in Employees
@@ -151,14 +153,14 @@ namespace EmployeeHR.Controllers
         }
 
         public ActionResult Edit(int id)
-        { 
-            ViewBag.departmentsList = departments;
+        {
+            ViewBag.departmentList = departments;
 
-            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
+            var model = Employees.FirstOrDefault(x => x.Id==id);
 
             if(model != null)
             {
-                return View(model);
+                return View("Create",model);
             }
 
             return RedirectToAction(nameof(Index));

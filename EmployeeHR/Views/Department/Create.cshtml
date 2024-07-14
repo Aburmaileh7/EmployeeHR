@@ -1,12 +1,13 @@
 ﻿@model EmployeeHR.Models.DepartmentModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewBag.ActionName = Model == null ? "Create" : "Edit";
+    ViewData["Title"] = ViewBag.ActionName + " Department";
 }
 
-<h1>Create</h1>
 
-<h4>DepartmentModel</h4>
+
+<h4>ViewBag.ActionName</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -25,14 +26,8 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
+            <a asp-action="Index" class="btn btn-danger">Back to List</a>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

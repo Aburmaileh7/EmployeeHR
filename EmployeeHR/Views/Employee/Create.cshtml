@@ -1,10 +1,11 @@
 ﻿@model EmployeeHR.Models.EmployeeModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewBag.ActionName = Model == null ? "Create" : "Edit";
+    ViewData["Title"] = ViewBag.ActionName + "Employee ";
 }
 
-<h1>Create</h1>
+<h1>ViewBag.ActionName</h1>
 
 
 <hr />
