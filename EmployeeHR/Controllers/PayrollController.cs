@@ -21,12 +21,12 @@ namespace EmployeeHR.Controllers
 
 
         public ActionResult Create()
-        {
-            ViewBag.EmployeeList = _dbContext.Employees.Select(x=> new
+        {  ViewBag.EmployeeList = _dbContext.Employees.Select(x=> new
             {
                 Id=x.Id,
                 Name=x.FirstName + " " + x.LastName,
             }).ToList();
+          
 
             return View();
         }
@@ -53,8 +53,31 @@ namespace EmployeeHR.Controllers
             return View();
         }
 
+        public ActionResult Edit(int id)
+        {
+            ViewBag.EmployeeList = _dbContext.Employees.Select(x => new
+            {
+                Id = x.Id,
+                Name = x.FirstName + " " + x.LastName,
+            }).ToList();
+            var model = _dbContext.Payrolls.FirstOrDefault(x => x.Id == id);
+
+            return View("Create",model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id,PayrollModel payroll)
+        {
+            payroll.NetSalary= SalaryCalaulation(payroll);
+            payroll.TS= DateTime.Now;
+
+            _dbContext.Payrolls.Update(payroll);
+            _dbContext.SaveChanges();
 
 
+            return RedirectToAction(nameof(Index));
+        }
+        
 
         private decimal SalaryCalaulation(PayrollModel payroll)
         {

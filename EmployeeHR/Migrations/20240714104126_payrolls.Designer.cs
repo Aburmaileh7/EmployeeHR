@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeHR.Migrations
 {
     [DbContext(typeof(HRDbContext))]
-    [Migration("20240714085931_ss")]
-    partial class ss
+    [Migration("20240714104126_payrolls")]
+    partial class payrolls
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,9 @@ namespace EmployeeHR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasicSalary")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime");
 
@@ -81,9 +84,6 @@ namespace EmployeeHR.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("NVARCHAR(50)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18, 3)");
 
                     b.HasKey("Id");
 

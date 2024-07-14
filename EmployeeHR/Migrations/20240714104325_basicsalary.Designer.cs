@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeHR.Migrations
 {
     [DbContext(typeof(HRDbContext))]
-    [Migration("20240714074115_createPayrollTable")]
-    partial class createPayrollTable
+    [Migration("20240714104325_basicsalary")]
+    partial class basicsalary
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,9 @@ namespace EmployeeHR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasicSalaryssss")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime");
 
@@ -81,9 +84,6 @@ namespace EmployeeHR.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("NVARCHAR(50)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18, 3)");
 
                     b.HasKey("Id");
 
@@ -114,6 +114,9 @@ namespace EmployeeHR.Migrations
                     b.Property<double?>("Leaves")
                         .HasColumnType("float");
 
+                    b.Property<decimal>("NetSalary")
+                        .HasColumnType("decimal(18,3)");
+
                     b.Property<DateTime>("PayrollDate")
                         .HasColumnType("datetime");
 
@@ -122,9 +125,6 @@ namespace EmployeeHR.Migrations
 
                     b.Property<DateTime>("TS")
                         .HasColumnType("DateTime");
-
-                    b.Property<decimal>("TotalSalary")
-                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 

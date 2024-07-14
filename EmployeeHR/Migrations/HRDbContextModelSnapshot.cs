@@ -53,6 +53,9 @@ namespace EmployeeHR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasicSalaryssss")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime");
 
@@ -78,9 +81,6 @@ namespace EmployeeHR.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("NVARCHAR(50)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18, 3)");
 
                     b.HasKey("Id");
 
