@@ -9,60 +9,60 @@ namespace EmployeeHR.Controllers
     public class EmployeeController : Controller
     {
 
-        //public static List<EmployeeModel> Employees = new List<EmployeeModel>
-        //{
-        //    new EmployeeModel{
-        //        Id = 1,
-        //        FirstName="Ali",
-        //        LastName="Rami",
-        //        HiringDate=new DateTime(2024,09,10),
-        //        DOB=new DateTime(2000,10,08),
-        //        Salary=500,
-        //        IsActive=true,
-        //        DepartmentId=1,
-        //        Email="ali@gmail.com"
-        //    } ,
-        //    new EmployeeModel{
-        //        Id = 2,
-        //        FirstName="salem",
-        //        LastName="ahmad",
-        //        HiringDate=new DateTime(2024,02,13),
-        //        DOB=new DateTime(2002,3,20),
-        //        Salary=700,
-        //        IsActive=true,
-        //        DepartmentId=2,
-        //        Email="alikll@gmail.com"
-        //    },
-        //    new EmployeeModel{
-        //        Id = 3,
-        //        FirstName="Amal",
-        //        LastName="Rami",
-        //        HiringDate=new DateTime(2024,3,22),
-        //        DOB=new DateTime(2000,12,03),
-        //        Salary=500,
-        //        IsActive=true,
-        //        DepartmentId=1,
-        //        Email="amal@gmail.com"
-        //    } 
-
-        //};
-
-        //public static List<DepartmentModel> departments = new List<DepartmentModel>
-        //{
-        //    new DepartmentModel{Id=1,Name="Developer",Abbreviation="Div"},
-        //    new DepartmentModel{Id=2,Name="Finance",Abbreviation="Fin"}
-        //};
-
-        private readonly HRDbContext _dbContext;
-
-        public EmployeeController(HRDbContext dbContext)
+        public static List<EmployeeModel> Employees = new List<EmployeeModel>
         {
-            this._dbContext = dbContext;
-        }
+            new EmployeeModel{
+                Id = 1,
+                FirstName="Ali",
+                LastName="Rami",
+                HiringDate=new DateTime(2024,09,10),
+                DOB=new DateTime(2000,10,08),
+                Salary=500,
+                IsActive=true,
+                DepartmentId=1,
+                Email="ali@gmail.com"
+            } ,
+            new EmployeeModel{
+                Id = 2,
+                FirstName="salem",
+                LastName="ahmad",
+                HiringDate=new DateTime(2024,02,13),
+                DOB=new DateTime(2002,3,20),
+                Salary=700,
+                IsActive=true,
+                DepartmentId=2,
+                Email="alikll@gmail.com"
+            },
+            new EmployeeModel{
+                Id = 3,
+                FirstName="Amal",
+                LastName="Rami",
+                HiringDate=new DateTime(2024,3,22),
+                DOB=new DateTime(2000,12,03),
+                Salary=500,
+                IsActive=true,
+                DepartmentId=1,
+                Email="amal@gmail.com"
+            }
+
+        };
+
+        public static List<DepartmentModel> departments = new List<DepartmentModel>
+        {
+            new DepartmentModel{Id=1,Name="Developer",Abbreviation="Div"},
+            new DepartmentModel{Id=2,Name="Finance",Abbreviation="Fin"}
+        };
+
+        //private readonly HRDbContext _dbContext;
+
+        //public EmployeeController(HRDbContext dbContext)
+        //{
+        //    this._dbContext = dbContext;
+        //}
 
         private EmployeeModel GetEmployee(int id)
         {
-            var model = _dbContext.Employees.Where(x => x.Id == id).FirstOrDefault();
+            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
             if (model!= null)
             {
                 return model;
@@ -74,34 +74,34 @@ namespace EmployeeHR.Controllers
         }
         public IActionResult Index()
         {
-            //var EmployeeDepartment = (from emp in _dbContext.Employees
-            //                          join dep in _dbContext.Departments on emp.DepartmentId equals dep.Id
-            //                          select new EmployeeModel
-            //                          {
-            //                              Id = emp.Id,
-            //                              FirstName = emp.FirstName,
-            //                              LastName = emp.LastName,
-            //                              HiringDate = emp.HiringDate,
-                                         
-            //                              IsActive = emp.IsActive,
-                                          
-            //                              DepartmentId = emp.DepartmentId,
-            //                              Department=dep
-                                      
-            //                          }).ToList();
+            var EmployeeDepartment = (from emp in Employees
+                                      join dep in departments on emp.DepartmentId equals dep.Id
+                                      select new EmployeeModel
+                                      {
+                                          Id = emp.Id,
+                                          FirstName = emp.FirstName,
+                                          LastName = emp.LastName,
+                                          HiringDate = emp.HiringDate,
 
-            var employees= _dbContext.Employees.Include(x => x.Id)
-                                                 .OrderBy(x => x.FirstName).ToList();
+                                          IsActive = emp.IsActive,
 
-            return View(employees);
+                                          DepartmentId = emp.DepartmentId,
+                                          Department = dep
+
+                                      }).ToList();
+
+            //var employees= _dbContext.Employees.Include(x => x.Id)
+            //                                     .OrderBy(x => x.FirstName).ToList();
+
+            return View(EmployeeDepartment);
         }
 
         //get Details
 
         public ActionResult Details(int id)
         {
-            var EmployeeDepartmentModel = (from emp in _dbContext.Employees
-                                           join dep in _dbContext.Departments on emp.DepartmentId equals dep.Id
+            var EmployeeDepartmentModel = (from emp in Employees
+                                           join dep in departments on emp.DepartmentId equals dep.Id
                                            select new EmployeeModel
                                            {
 
@@ -124,7 +124,7 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.departmentsList = _dbContext.Departments;
+            ViewBag.departmentsList = departments;
 
             return View();
         }
@@ -139,8 +139,8 @@ namespace EmployeeHR.Controllers
             {
 
 
-                _dbContext.Employees.Add(employee);
-                _dbContext.SaveChanges();
+                Employees.Add(employee);
+               // _dbContext.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -152,9 +152,9 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Edit(int id)
         { 
-            ViewBag.departmentsList = _dbContext.Departments;
+            ViewBag.departmentsList = departments;
 
-            var model = _dbContext.Employees.Where(x => x.Id == id).FirstOrDefault();
+            var model = Employees.Where(x => x.Id == id).FirstOrDefault();
 
             if(model != null)
             {
@@ -170,7 +170,7 @@ namespace EmployeeHR.Controllers
         {
             try
             {
-                var model = _dbContext.Employees.Where(x => x.Id == id).FirstOrDefault();
+                var model = Employees.Where(x => x.Id == id).FirstOrDefault();
 
                 if(model != null)
                 {
@@ -184,7 +184,7 @@ namespace EmployeeHR.Controllers
                     model.DepartmentId = employee.DepartmentId;
                     model.Email = employee.Email;
 
-                    _dbContext.SaveChanges();
+                  //  _dbContext.SaveChanges();
                 }
 
                 return RedirectToAction(nameof(Index));
@@ -215,9 +215,9 @@ namespace EmployeeHR.Controllers
                 var model = GetEmployee(id);
                 if(model != null)
                 {
-                    _dbContext.Employees.Remove(model);
+                    Employees.Remove(model);
 
-                    _dbContext.SaveChanges();
+                    //_dbContext.SaveChanges();
                 }
 
                 return RedirectToAction(nameof(Index));

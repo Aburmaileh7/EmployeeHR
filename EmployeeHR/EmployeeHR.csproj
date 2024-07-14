@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Department\**" />
+    <Content Remove="Views\Department\**" />
+    <EmbeddedResource Remove="Views\Department\**" />
+    <None Remove="Views\Department\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.2.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.7" />
@@ -19,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Department\" />
+    <None Include="Views\Department\Index.cshtml" />
   </ItemGroup>
 
 </Project>
