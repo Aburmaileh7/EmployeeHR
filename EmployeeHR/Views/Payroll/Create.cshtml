@@ -16,33 +16,38 @@
 
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class ="form-control" asp-items="@(new SelectList(ViewBag.EmployeeList,"Id","Name"))">
+                <select asp-for="EmployeeId" class="form-control" id="ddlEmployee" name="ddlEmployee"
+                        asp-items="@(new SelectList(ViewBag.EmployeeList,"Id","Name"))"
+                        onchange="SalaryCalculation()">
                     <option value="">-select Employee-</option>
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="PayrollDate" class="control-label"></label>
-                <input asp-for="PayrollDate" class="form-control" />
+                <input asp-for="PayrollDate" class="form-control" id="PayrollDate" name="PayrollDate" />
                 <span asp-validation-for="PayrollDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Bonus" class="control-label"></label>
-                <input asp-for="Bonus" class="form-control" />
+                <input asp-for="Bonus" class="form-control" id="Bonus" name="Bonus"
+                       onchange="SalaryCalculation()" value="0" />
                 <span asp-validation-for="Bonus" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SocialSecurityAmount" class="control-label"></label>
-                <input asp-for="SocialSecurityAmount" class="form-control" />
+                <input asp-for="SocialSecurityAmount"
+                class="form-control" id="SocialSecurityAmount" name="SocialSecurityAmount" readonly value="=0"/>
                 <span asp-validation-for="SocialSecurityAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Leaves" class="control-label"></label>
-                <input asp-for="Leaves" class="form-control" />
+                <input asp-for="Leaves"
+                class="form-control" id="Leaves" name="Leaves" onchange="SalaryCalculation()" value="0" />
                 <span asp-validation-for="Leaves" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NetSalary" class="control-label"></label>
-                <input asp-for="NetSalary" class="form-control" readonly value="0"/>
+                <input asp-for="NetSalary" class="form-control" readonly value="0" id="NetSalary" name="NetSalary" />
                 <span asp-validation-for="NetSalary" class="text-danger"></span>
             </div>
 
@@ -51,12 +56,12 @@
 
                 <div class="form-group">
                     <label asp-for="TS" class="control-label"></label>
-                    <input asp-for="TS" class="form-control" readonly />
+                    <input asp-for="TS" class="form-control" readonly  id="TS" name="TS"/>
                     <span asp-validation-for="TS" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CreatedBy" class="control-label"></label>
-                    <input asp-for="CreatedBy" class="form-control" readonly/>
+                    <input asp-for="CreatedBy" class="form-control" readonly id="CreatedBy" name="CreatedBy" />
                     <span asp-validation-for="CreatedBy" class="text-danger"></span>
                 </div>
             }
@@ -75,3 +80,26 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
+<script>
+    function SalaryCalculation(){
+
+        var basicSalary = 500;// document.getElementById("BasicSalary").value;
+        var bonus = document.getElementById("Bonus").value;
+        var leaves = document.getElementById("Leaves").value;
+
+
+        var txtSSAmount = document.getElementById("SocialSecurityAmount").value;
+        txtSSAmount.value= basicSalary *0.075;
+        var ssAmount = document.getElementById("SocialSecurityAmount").value;
+
+
+        var txtNetSalary = document.getElementById("NetSalary").value;
+        
+
+        txtNetSalary.value = (+basicSalary) + (+bonus) - (+ssAmount) - (+leavesAmount);
+    }
+
+
+</script>

@@ -109,5 +109,13 @@ namespace EmployeeHR.Controllers
             }
             return netSalary;
         }
+
+        public IActionResult GetBasicSalary(int employeeId)
+        {
+            var basicSalary = _dbContext.Employees.FirstOrDefault(x => x.Id == employeeId).BasicSalary;
+            return Ok(basicSalary);
+        }
+
+
     }
 }
