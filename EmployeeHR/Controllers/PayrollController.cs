@@ -1,5 +1,6 @@
 ﻿using EmployeeHR.Data;
 using EmployeeHR.Models;
+using EmployeeHR.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,8 +16,15 @@ namespace EmployeeHR.Controllers
 
         public IActionResult Index()
         {
-            var model = _dbContext.Payrolls.Include(x => x.Employee).ToList();
-            return View(model);
+            //var model = _dbContext.Payrolls.Include(x => x.Employee).ToList();
+
+        //    var viewModel =_dbContext.Payrolls.Include(x => x.Employee).Select(x => PayrollViewModel
+            //{
+            //    Id= x.Id;
+            //    payr
+            //})
+
+             return View();
         }
 
 
