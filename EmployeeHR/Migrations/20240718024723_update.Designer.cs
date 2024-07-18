@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeHR.Migrations
 {
-    [DbContext(typeof(HRDbContext))]
-    [Migration("20240714104126_payrolls")]
-    partial class payrolls
+    [DbContext(typeof(HRDBContext))]
+    [Migration("20240718024723_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,7 +120,7 @@ namespace EmployeeHR.Migrations
                     b.Property<DateTime>("PayrollDate")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal>("SSa")
+                    b.Property<decimal>("SocialSecurityAmount")
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<DateTime>("TS")

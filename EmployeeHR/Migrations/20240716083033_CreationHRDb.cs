@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeHR.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class CreationHRDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +40,7 @@ namespace EmployeeHR.Migrations
                     LastName = table.Column<string>(type: "NVARCHAR(50)", maxLength: 50, nullable: false),
                     HiringDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Salary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    BasicSalary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
@@ -69,7 +69,7 @@ namespace EmployeeHR.Migrations
                     Bonus = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
                     SSa = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
                     Leaves = table.Column<double>(type: "float", nullable: true),
-                    TotalSalary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
+                    NetSalary = table.Column<decimal>(type: "decimal(18,3)", nullable: false),
                     TS = table.Column<DateTime>(type: "DateTime", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },

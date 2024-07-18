@@ -38,7 +38,7 @@ namespace EmployeeHR.Models
         public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "Please Enter Employee Salary")]
-        [Display(Name = "Salary")]
+        [Display(Name = "Basic Salary")]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18, 3)")]
         public decimal BasicSalary { get; set; }
@@ -48,18 +48,16 @@ namespace EmployeeHR.Models
         [Column(TypeName = "bit")]
         public bool  IsActive  { get; set; }
 
+        [Display(Name = "Employee Email")]
+        [DataType(DataType.EmailAddress)]
+        [Column(TypeName = "nvarchar(100)")]
+        [StringLength(100)]
+        public string? Email { get; set; }
 
         [Required]
         [Display(Name ="Depatment ID")]
         [Column(TypeName = "int")]
         public int DepartmentId { get; set; }
-
-
-        [Display(Name ="Employee Email")]
-        [DataType(DataType.EmailAddress)]
-        [Column(TypeName = "nvarchar(100)")]
-        [StringLength(100)]
-        public string? Email { get; set; }
 
         [Display(Name ="Department")]
         public virtual DepartmentModel Department { get; set; }

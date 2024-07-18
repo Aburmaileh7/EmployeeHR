@@ -6,9 +6,9 @@
 
 <h1>Index</h1>
 
-
-    <a asp-action="Create">Create New</a>
-
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -32,7 +32,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                    @Html.DisplayFor(modelItem => item.Employee.FirstName)    @Html.DisplayFor(modelItem => item.Employee.LastName)
+                 @Html.DisplayFor(modelItem => item.Employee.FirstName)
+                 @Html.DisplayFor(modelItem => item.Employee.LastName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PayrollDate)

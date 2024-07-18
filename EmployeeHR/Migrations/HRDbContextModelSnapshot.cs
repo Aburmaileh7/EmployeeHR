@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeHR.Migrations
 {
-    [DbContext(typeof(HRDbContext))]
-    partial class HRDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(HRDBContext))]
+    partial class HRDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -53,7 +53,7 @@ namespace EmployeeHR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("BasicSalaryssss")
+                    b.Property<decimal>("BasicSalary")
                         .HasColumnType("decimal(18, 3)");
 
                     b.Property<DateTime>("DOB")
@@ -117,7 +117,7 @@ namespace EmployeeHR.Migrations
                     b.Property<DateTime>("PayrollDate")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal>("SSa")
+                    b.Property<decimal>("SocialSecurityAmount")
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<DateTime>("TS")

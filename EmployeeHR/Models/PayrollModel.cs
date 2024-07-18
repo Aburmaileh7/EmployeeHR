@@ -18,8 +18,9 @@ namespace EmployeeHR.Models
 
 
         [Required]
-        [Display(Name = "payroll date")]
+        [Display(Name = "Payroll date")]
         [Column(TypeName ="datetime")]
+        [DisplayFormat(DataFormatString ="{0:dd.MM.yyyy}")]
         [DataType(DataType.Date)]
         public DateTime PayrollDate { get; set; }
 
@@ -29,9 +30,9 @@ namespace EmployeeHR.Models
         public decimal Bonus { get; set; }
 
         [Required]
-        [Display(Name = "SSa")]
+        [Display(Name = "Social Security Amount")]
         [Column(TypeName = "decimal(18,3)")]
-        public decimal SSa { get; set; }
+        public decimal SocialSecurityAmount { get; set; }
 
         [Display(Name = "Leaves(In Hours)")]
         [Column(TypeName = "float")]
@@ -47,7 +48,7 @@ namespace EmployeeHR.Models
 
 
         [Required]
-        [Display(Name = "TotalSalary")]
+        [Display(Name = "Time Span")]
         [Column(TypeName = "DateTime")]
         public DateTime TS { get; set; }
 

@@ -7,26 +7,28 @@ namespace EmployeeHR.Controllers
 {
     public class PayrollController : Controller
     {
-        private readonly HRDbContext _dbContext;
-        public PayrollController(HRDbContext dbContext)
+        private readonly HRDBContext _dbContext;
+        public PayrollController(HRDBContext dbContext)
         {
             this._dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            var model = _dbContext.Payrolls.Include(x =>x.Employee).ToList();
+            var model = _dbContext.Payrolls.Include(x => x.Employee).ToList();
             return View(model);
         }
 
 
+
         public ActionResult Create()
-        {  ViewBag.EmployeeList = _dbContext.Employees.Select(x=> new
+        {
+            ViewBag.EmployeeList = _dbContext.Employees.Select(x => new
             {
-                Id=x.Id,
-                Name=x.FirstName + " " + x.LastName,
+                Id = x.Id,
+                Name = x.FirstName + " " + x.LastName,
             }).ToList();
-          
+
 
             return View();
         }
@@ -34,11 +36,10 @@ namespace EmployeeHR.Controllers
         [HttpPost]
         public ActionResult Create(PayrollModel payroll)
         {
-            if (payroll != null) 
+            if (payroll != null)
             {
                 payroll.NetSalary = SalaryCalaulation(payroll);
-
-                if (payroll.NetSalary== 0)
+                if (payroll.NetSalary == 0)
                 {
                     return View();
                 }
@@ -46,11 +47,24 @@ namespace EmployeeHR.Controllers
                 payroll.TS = DateTime.Now;
                 payroll.CreatedBy = "Logged User";
 
-                _dbContext.Payrolls.Add(payroll);   
+                _dbContext.Payrolls.Add(payroll);
                 _dbContext.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View();
+        }
+
+        public IActionResult EmployeePayrolls(int id)
+        {
+            var model = _dbContext.Employees
+                .Include(x => x.Department)
+                .Include(x => x.Payrolls)
+                .Where(x => x.Id == id).ToList();
+
+            var payroll = new PayrollModel();
+            model.FirstOrDefault().Payrolls.Add(payroll);
+
+            return View(model);
         }
 
         public ActionResult Edit(int id)
@@ -62,14 +76,14 @@ namespace EmployeeHR.Controllers
             }).ToList();
             var model = _dbContext.Payrolls.FirstOrDefault(x => x.Id == id);
 
-            return View("Create",model);
+            return View("Create", model);
         }
 
         [HttpPost]
-        public ActionResult Edit(int id,PayrollModel payroll)
+        public ActionResult Edit(int id, PayrollModel payroll)
         {
-            payroll.NetSalary= SalaryCalaulation(payroll);
-            payroll.TS= DateTime.Now;
+            payroll.NetSalary = SalaryCalaulation(payroll);
+            payroll.TS = DateTime.Now;
 
             _dbContext.Payrolls.Update(payroll);
             _dbContext.SaveChanges();
@@ -77,7 +91,7 @@ namespace EmployeeHR.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
 
         private decimal SalaryCalaulation(PayrollModel payroll)
         {
@@ -87,7 +101,7 @@ namespace EmployeeHR.Controllers
             if (employee != null)
             {
                 var leavesAmount = (employee?.BasicSalary / 30 / 8) * Convert.ToDecimal(payroll.Leaves);
-                netSalary = employee.BasicSalary+payroll.Bonus-payroll.SSa-Convert.ToDecimal(leavesAmount);
+                netSalary = employee.BasicSalary + payroll.Bonus - payroll.SocialSecurityAmount - Convert.ToDecimal(leavesAmount);
             }
             else
             {

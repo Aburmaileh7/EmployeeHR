@@ -11,16 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EmployeeHR.Migrations
 {
-    [DbContext(typeof(HRDbContext))]
-    [Migration("20240711100843_CreateDB")]
-    partial class CreateDB
+    [DbContext(typeof(HRDBContext))]
+    [Migration("20240717235901_CreatePayrollTable")]
+    partial class CreatePayrollTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,6 +56,9 @@ namespace EmployeeHR.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("BasicSalary")
+                        .HasColumnType("decimal(18, 3)");
+
                     b.Property<DateTime>("DOB")
                         .HasColumnType("datetime");
 
@@ -81,9 +84,6 @@ namespace EmployeeHR.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("NVARCHAR(50)");
-
-                    b.Property<decimal>("Salary")
-                        .HasColumnType("decimal(18, 3)");
 
                     b.HasKey("Id");
 
@@ -114,17 +114,17 @@ namespace EmployeeHR.Migrations
                     b.Property<double?>("Leaves")
                         .HasColumnType("float");
 
+                    b.Property<decimal>("NetSalary")
+                        .HasColumnType("decimal(18,3)");
+
                     b.Property<DateTime>("PayrollDate")
                         .HasColumnType("datetime");
 
-                    b.Property<decimal>("SSa")
+                    b.Property<decimal>("SocialSecurityAmount")
                         .HasColumnType("decimal(18,3)");
 
                     b.Property<DateTime>("TS")
                         .HasColumnType("DateTime");
-
-                    b.Property<decimal>("TotalSalary")
-                        .HasColumnType("decimal(18,3)");
 
                     b.HasKey("Id");
 

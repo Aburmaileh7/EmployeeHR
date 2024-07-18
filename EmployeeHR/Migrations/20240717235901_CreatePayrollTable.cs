@@ -5,26 +5,26 @@
 namespace EmployeeHR.Migrations
 {
     /// <inheritdoc />
-    public partial class basicsalary : Migration
+    public partial class CreatePayrollTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Salary",
+                name: "SSa",
                 schema: "dbo",
-                table: "Employees",
-                newName: "BasicSalary");
+                table: "Payrolls",
+                newName: "SocialSecurityAmount");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "Salary",
+                name: "SocialSecurityAmount",
                 schema: "dbo",
-                table: "Employees",
-                newName: "BasicSalary");
+                table: "Payrolls",
+                newName: "SSa");
         }
     }
 }

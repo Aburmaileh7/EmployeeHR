@@ -7,22 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-
-
-builder.Services.AddControllersWithViews();
-
-
-
 IConfiguration configuration = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("appsettings.json")
-    .Build();
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
 
-var connectionString = configuration.GetConnectionString("HRConnectionString");
+var ConnectionString = configuration.GetConnectionString("HRConnectionString");
+ 
 
-builder.Services.AddDbContext<HRDbContext>(options =>
-                options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<HRDBContext>(Options => Options.UseSqlServer(ConnectionString));
+
 
 
 
@@ -46,8 +39,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Employee}/{action=Index}/{id?}");
+
 
 app.Run();
