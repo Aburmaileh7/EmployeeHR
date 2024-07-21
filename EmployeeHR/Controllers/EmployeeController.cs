@@ -67,7 +67,7 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.departmentsList = _dbContext.Departments;
+            ViewBag.DepartmentsList = _dbContext.Departments;
 
             return View();
         }
@@ -75,68 +75,51 @@ namespace EmployeeHR.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeeModel employee)
         {
-            try
+            if(employee !=null )
             {
-
-
                _dbContext.Employees.Add(employee);
                _dbContext.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         public ActionResult Edit(int id)
         {
-            ViewBag.departmentList = _dbContext.Departments;
-
-            var model = _dbContext.Employees.FirstOrDefault(x => x.Id==id);
-
-            if(model != null)
+            ViewBag.DepartmentList = _dbContext.Departments;
+            var employeemodel = _dbContext.Employees.FirstOrDefault(x => x.Id==id);
+            if(employeemodel != null)
             {
-                return View("Create",model);
+                return View("Create", employeemodel);
             }
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+ 
         public ActionResult Edit(int id,EmployeeModel employee)
         {
-            try
+
+            var employeemodel = _dbContext.Employees.FirstOrDefault(x => x.Id == id);
+
+            if (employeemodel != null)
             {
-                var model = _dbContext.Employees.Where(x => x.Id == id).FirstOrDefault();
-
-                if(model != null)
-                {
-                    model.Id = employee.Id;
-                    model.FirstName = employee.FirstName;
-                    model.LastName = employee.LastName;
-                    model.HiringDate = employee.HiringDate;
-                    model.DOB = employee.DOB;
-                    model.BasicSalary = employee.BasicSalary;
-                    model.IsActive = employee.IsActive;
-                    model.DepartmentId = employee.DepartmentId;
-                    model.Email = employee.Email;
-
-                  _dbContext.SaveChanges();
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            catch
-            {
-                return View();
-            }
+                employeemodel.FirstName = employee.FirstName;
+                employeemodel.LastName = employee.LastName;
+                employeemodel.HiringDate = employee.HiringDate;
+                employeemodel.DOB = employee.DOB;
+                employeemodel.BasicSalary = employee.BasicSalary;
+                employeemodel.IsActive = employee.IsActive;
+                employeemodel.DepartmentId = employee.DepartmentId;
+                employeemodel.Email = employee.Email;
+                _dbContext.SaveChanges();
+                     
+             }
+            return RedirectToAction(nameof(Index));
 
         }
 

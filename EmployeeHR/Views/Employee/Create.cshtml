@@ -5,7 +5,7 @@
     ViewData["Title"] = ViewBag.ActionName + "Employee ";
 }
 
-<h1>ViewBag.ActionName</h1>
+<h1>@ViewBag.ActionName</h1>
 
 
 <hr />
@@ -13,11 +13,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
@@ -51,6 +46,10 @@
             <div class="form-group">
                 <label asp-for="DepartmentId" class="control-label"></label>
                 <input asp-for="DepartmentId" class="form-control" />
+               @*  <select asp-for="DepartmentId" class="form-control" 
+                        asp-items="@(new SelectList(ViewBag.DepartmentList))">
+                    <option value="">-select Department-</option>
+                </select> *@
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,7 +59,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="save" class="btn btn-primary" />
 
                 <a asp-action="Index" class="btn btn-danger">Back to List</a>
             </div>

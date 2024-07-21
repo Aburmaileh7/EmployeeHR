@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EmployeeHR.ViewModel.PayrollViewModel>
+﻿@model IEnumerable<EmployeeHR.ViewModels.PayrollViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Employee)
+                @Html.DisplayNameFor(model => model.EmployeeFullName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PayrollDate)
@@ -32,8 +32,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                 @Html.DisplayFor(modelItem => item.Employee.FirstName)
-                 @Html.DisplayFor(modelItem => item.Employee.LastName)
+                 @Html.DisplayFor(modelItem => item.EmployeeFullName)
+                 @Html.DisplayFor(modelItem => item.EmployeeFullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PayrollDate)

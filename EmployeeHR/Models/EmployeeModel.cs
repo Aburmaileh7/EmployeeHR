@@ -29,12 +29,14 @@ namespace EmployeeHR.Models
         [Display (Name ="Hiring Date")]
         [DisplayFormat(DataFormatString ="{0:MM.dd.yyyy}")]
         [Column(TypeName = "datetime")]
+        [DataType(DataType.Date)]
         public DateTime HiringDate { get; set; }
 
         [Required]
         [Display(Name ="Birth Of Date")]
         [DisplayFormat(DataFormatString = "{0:MM.dd.yyyy}")]
         [Column(TypeName = "datetime")]
+        [DataType(DataType.Date)]
         public DateTime DOB { get; set; }
 
         [Required(ErrorMessage = "Please Enter Employee Salary")]

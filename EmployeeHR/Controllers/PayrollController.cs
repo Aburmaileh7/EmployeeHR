@@ -1,6 +1,6 @@
 ﻿using EmployeeHR.Data;
 using EmployeeHR.Models;
-using EmployeeHR.ViewModel;
+using EmployeeHR.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +17,18 @@ namespace EmployeeHR.Controllers
         public IActionResult Index()
         {
             //var model = _dbContext.Payrolls.Include(x => x.Employee).ToList();
+            var viewmodel = _dbContext.Payrolls.Include(x => x.Employee).Select(x => new PayrollViewModel
+            {
+                Id = x.Id,
+                PayrollDate = x.PayrollDate,
+                Bonus = x.Bonus,
+                SocialSecurityAmount = x.SocialSecurityAmount,
+                CreatedBy = x.CreatedBy,
+                EmployeeFullName = $"{x.Employee.FirstName} {x.Employee.LastName}",
+                NetSalary=x.NetSalary
+            }).ToList();
 
-        //    var viewModel =_dbContext.Payrolls.Include(x => x.Employee).Select(x => PayrollViewModel
-            //{
-            //    Id= x.Id;
-            //    payr
-            //})
-
-             return View();
+            return View(viewmodel);
         }
 
 
@@ -42,15 +46,23 @@ namespace EmployeeHR.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PayrollModel payroll)
+        public ActionResult Create(PayrollViewModel payrollViewModel)
         {
-            if (payroll != null)
+            if (payrollViewModel != null)
             {
-                payroll.NetSalary = SalaryCalaulation(payroll);
+                var payroll = new PayrollModel();
+                payroll.NetSalary = SalaryCalaulation(payrollViewModel);
                 if (payroll.NetSalary == 0)
                 {
                     return View();
                 }
+
+                payroll.PayrollDate = payrollViewModel.PayrollDate;
+                payroll.EmployeeId = payrollViewModel.EmployeeId;
+                payroll.Bonus = payrollViewModel.Bonus;
+                payroll.SocialSecurityAmount = payrollViewModel.SocialSecurityAmount;
+                payroll.Leaves = payrollViewModel.Leaves;
+
 
                 payroll.TS = DateTime.Now;
                 payroll.CreatedBy = "Logged User";
@@ -82,18 +94,43 @@ namespace EmployeeHR.Controllers
                 Id = x.Id,
                 Name = x.FirstName + " " + x.LastName,
             }).ToList();
-            var model = _dbContext.Payrolls.FirstOrDefault(x => x.Id == id);
+            //var model = _dbContext.Payrolls.FirstOrDefault(x => x.Id == id);
 
-            return View("Create", model);
+            var viewmodel = _dbContext.Payrolls.Include(x => x.Employee).Select(x => new PayrollViewModel
+            {
+                Id = x.Id,
+                PayrollDate = x.PayrollDate,
+                Bonus = x.Bonus,
+                SocialSecurityAmount = x.SocialSecurityAmount,
+                CreatedBy = x.CreatedBy,
+                EmployeeFullName = $"{x.Employee.FirstName} {x.Employee.LastName}",
+                NetSalary = x.NetSalary,
+                Leaves=x.Leaves,
+                BasicSalary=x.Employee.BasicSalary
+            }).FirstOrDefault(x=> x.Id ==id);
+
+            return View("Create", viewmodel);
         }
 
         [HttpPost]
-        public ActionResult Edit(int id, PayrollModel payroll)
+        public ActionResult Edit(int id, PayrollViewModel payroll)
         {
-            payroll.NetSalary = SalaryCalaulation(payroll);
-            payroll.TS = DateTime.Now;
 
-            _dbContext.Payrolls.Update(payroll);
+            var model = _dbContext.Payrolls.FirstOrDefault(x => x.Id == id);
+
+            if (model!= null)
+            {
+                model.EmployeeId = payroll.EmployeeId;
+                model.PayrollDate = payroll.PayrollDate;
+                model.Bonus = payroll.Bonus;
+                model.Leaves = payroll.Leaves;
+                model.SocialSecurityAmount = payroll.SocialSecurityAmount;
+                model.TS = DateTime.Now;
+                model.NetSalary = SalaryCalaulation(payroll);
+               
+
+            }
+
             _dbContext.SaveChanges();
 
 
@@ -101,7 +138,7 @@ namespace EmployeeHR.Controllers
         }
 
 
-        private decimal SalaryCalaulation(PayrollModel payroll)
+        private decimal SalaryCalaulation(PayrollViewModel payroll)
         {
             decimal netSalary = 0;
 
@@ -118,10 +155,20 @@ namespace EmployeeHR.Controllers
             return netSalary;
         }
 
+
+        [HttpGet]
         public IActionResult GetBasicSalary(int employeeId)
         {
+            try
+            {
             var basicSalary = _dbContext.Employees.FirstOrDefault(x => x.Id == employeeId).BasicSalary;
-            return Ok(basicSalary);
+             return Ok(basicSalary);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
 

@@ -1,4 +1,4 @@
-﻿@model EmployeeHR.ViewModel.PayrollViewModel
+﻿@model EmployeeHR.ViewModels.PayrollViewModel
 
 @{
     ViewBag.ActionName = Model == null ? "Create" : "Edit";
@@ -16,11 +16,15 @@
 
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
-                <select asp-for="EmployeeId" class="form-control" id="ddlEmployee" name="ddlEmployee"
-                        asp-items="@(new SelectList(ViewBag.EmployeeList,"Id","Name"))"
-                        onchange="SalaryCalculation()">
+                <select asp-for="EmployeeId" class="form-control" id="ddlEmployee" name="EmployeeId"
+                        asp-items="@(new SelectList(ViewBag.EmployeeList,"Id","Name"))">
                     <option value="">-select Employee-</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="BasicSalary" class="control-label"></label>
+                <input asp-for="BasicSalary" class="form-control"  name="BasicSalary"  readonly/>
+                @* <span asp-validation-for="BasicSalary" class="text-danger"></span> *@
             </div>
             <div class="form-group">
                 <label asp-for="PayrollDate" class="control-label"></label>
@@ -30,19 +34,19 @@
             <div class="form-group">
                 <label asp-for="Bonus" class="control-label"></label>
                 <input asp-for="Bonus" class="form-control" id="Bonus" name="Bonus"
-                       onchange="SalaryCalculation()" value="0" />
+                       onchange="SalaryCalculation()"   />
                 <span asp-validation-for="Bonus" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SocialSecurityAmount" class="control-label"></label>
                 <input asp-for="SocialSecurityAmount"
-                class="form-control" id="SocialSecurityAmount" name="SocialSecurityAmount" readonly value="=0"/>
+                class="form-control" id="SocialSecurityAmount" name="SocialSecurityAmount" readonly value="0" />
                 <span asp-validation-for="SocialSecurityAmount" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Leaves" class="control-label"></label>
                 <input asp-for="Leaves"
-                class="form-control" id="Leaves" name="Leaves" onchange="SalaryCalculation()" value="0" />
+                class="form-control" id="Leaves" name="Leaves"  onchange="SalaryCalculation()"  />
                 <span asp-validation-for="Leaves" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -66,7 +70,7 @@
                 </div>
             }
             
-
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-info">Back to List</a>
@@ -79,7 +83,39 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(function () {
+            //LoadData();
+            $("#ddlEmployee").change(function () {
+                //alert("");
+                var employeeId = $("#ddlEmployee").val();
+
+                $.ajax({
+                    type: "GET",
+                    url: '/Payroll/GetBasicSalary?employeeId=' + employeeId,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    processData: true,
+                    success: function (response) {
+                        alert("Data has been added successfully.");
+                        document.getElementById("BasicSalary").value = response;
+                        SalaryCalculation();
+                        //LoadData();
+                    },
+                    error: function () {
+                        alert("Error while getting data");
+                    }
+                });
+                return false;
+            });
+        });
+
+    </script>
+
 }
+
+
 
 
 <script>
@@ -91,14 +127,14 @@
 
 
         var txtSSAmount = document.getElementById("SocialSecurityAmount").value;
-        txtSSAmount.value= basicSalary *0.075;
+        SocialSecurityAmount.value = basicSalary * 0.075;
         var ssAmount = document.getElementById("SocialSecurityAmount").value;
 
 
         var txtNetSalary = document.getElementById("NetSalary").value;
-        
+        var leavesAmount = (basicSalary / 30 / 8) * leaves;
 
-        txtNetSalary.value = (+basicSalary) + (+bonus) - (+ssAmount) - (+leavesAmount);
+        NetSalary.value = (+basicSalary) + (+bonus) - (+ssAmount) - (+leavesAmount);
     }
 
 
