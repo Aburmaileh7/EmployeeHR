@@ -108,6 +108,8 @@ namespace EmployeeHR.Controllers
 
             if (employeemodel != null)
             {
+
+                employeemodel.Id = employee.Id;
                 employeemodel.FirstName = employee.FirstName;
                 employeemodel.LastName = employee.LastName;
                 employeemodel.HiringDate = employee.HiringDate;
@@ -116,9 +118,12 @@ namespace EmployeeHR.Controllers
                 employeemodel.IsActive = employee.IsActive;
                 employeemodel.DepartmentId = employee.DepartmentId;
                 employeemodel.Email = employee.Email;
-                _dbContext.SaveChanges();
+                
                      
              }
+
+            _dbContext.SaveChanges();
+
             return RedirectToAction(nameof(Index));
 
         }
