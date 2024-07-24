@@ -2,7 +2,7 @@
 
 @{
     ViewBag.ActionName = Model == null ? "Create" : "Edit";
-    ViewData["Title"] = ViewBag.ActionName + "Employee ";
+  //  ViewData["Title"] = ViewBag.ActionName;
 }
 
 <h1>@ViewBag.ActionName</h1>
@@ -11,32 +11,30 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="@ViewBag.ActionName">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+               
             </div>
             <div class="form-group">
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+              
             </div>
             <div class="form-group">
                 <label asp-for="HiringDate" class="control-label"></label>
                 <input asp-for="HiringDate" class="form-control" />
-                <span asp-validation-for="HiringDate" class="text-danger"></span>
+               
             </div>
             <div class="form-group">
                 <label asp-for="DOB" class="control-label"></label>
                 <input asp-for="DOB" class="form-control" />
-                <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BasicSalary" class="control-label"></label>
                 <input asp-for="BasicSalary" class="form-control" />
-                <span asp-validation-for="BasicSalary" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -44,18 +42,15 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
-                <input asp-for="DepartmentId" class="form-control" />
-               @*  <select asp-for="DepartmentId" class="form-control" 
-                        asp-items="@(new SelectList(ViewBag.DepartmentList))">
-                    <option value="">-select Department-</option>
-                </select> *@
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                <label asp-for="Department" class="control-label"></label>
+                <select asp-for="DepartmentId" class="form-control"
+                        asp-items="@(new SelectList(ViewBag.DepartmentList,"Id","Name"))">
+                    <option value="">- select a Department -</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <br />
             <div class="form-group">

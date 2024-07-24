@@ -35,7 +35,7 @@ namespace EmployeeHR.Controllers
 
         // POST: DepartmentController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public ActionResult Create(DepartmentModel department)
         {
           if(department != null)
@@ -62,7 +62,7 @@ namespace EmployeeHR.Controllers
 
         // POST: DepartmentController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
+   
         public ActionResult Edit(int id, DepartmentModel department)
         {
             var model = _dbcontext.Departments.FirstOrDefault(x => x.Id == id);

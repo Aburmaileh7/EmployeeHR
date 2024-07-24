@@ -8,6 +8,17 @@ namespace EmployeeHR.Controllers
 {
     public class EmployeeController : Controller
     {
+
+
+        //database/////////////////////
+        private readonly HRDBContext _dbContext;
+
+        public EmployeeController(HRDBContext dbContext)
+        {
+            this._dbContext = dbContext;
+        }
+
+
         private EmployeeModel GetEmployee(int id)
         {
             var model = _dbContext.Employees.Where(x => x.Id == id).FirstOrDefault();
@@ -19,15 +30,6 @@ namespace EmployeeHR.Controllers
             {
                 return new EmployeeModel();
             }
-        }
-
-
-        //database/////////////////////
-        private readonly HRDBContext _dbContext;
-
-        public EmployeeController(HRDBContext dbContext)
-        {
-            this._dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -67,8 +69,8 @@ namespace EmployeeHR.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.DepartmentsList = _dbContext.Departments;
 
+            ViewBag.DepartmentList = _dbContext.Departments;
             return View();
         }
 
@@ -81,9 +83,10 @@ namespace EmployeeHR.Controllers
             {
                _dbContext.Employees.Add(employee);
                _dbContext.SaveChanges();
-
                 return RedirectToAction(nameof(Index));
             }
+
+
             return View();
         }
 
@@ -91,16 +94,12 @@ namespace EmployeeHR.Controllers
         {
             ViewBag.DepartmentList = _dbContext.Departments;
             var employeemodel = _dbContext.Employees.FirstOrDefault(x => x.Id==id);
-            if(employeemodel != null)
-            {
                 return View("Create", employeemodel);
-            }
-
-            return RedirectToAction(nameof(Index));
+         
         }
 
         [HttpPost]
- 
+
         public ActionResult Edit(int id,EmployeeModel employee)
         {
 
@@ -108,21 +107,17 @@ namespace EmployeeHR.Controllers
 
             if (employeemodel != null)
             {
-
-                employeemodel.Id = employee.Id;
                 employeemodel.FirstName = employee.FirstName;
                 employeemodel.LastName = employee.LastName;
                 employeemodel.HiringDate = employee.HiringDate;
-                employeemodel.DOB = employee.DOB;
-                employeemodel.BasicSalary = employee.BasicSalary;
                 employeemodel.IsActive = employee.IsActive;
+                employeemodel.DOB = employee.DOB;
+                employeemodel.BasicSalary = employee.BasicSalary;               
                 employeemodel.DepartmentId = employee.DepartmentId;
                 employeemodel.Email = employee.Email;
                 
-                     
+                 _dbContext.SaveChanges();    
              }
-
-            _dbContext.SaveChanges();
 
             return RedirectToAction(nameof(Index));
 
@@ -138,7 +133,7 @@ namespace EmployeeHR.Controllers
 
         //post
         [HttpPost]
-        [ValidateAntiForgeryToken]
+    
         public ActionResult Delete(int id ,  EmployeeModel employee)
         {
             try

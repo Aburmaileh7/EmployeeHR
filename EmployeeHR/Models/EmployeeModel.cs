@@ -7,7 +7,7 @@ namespace EmployeeHR.Models
     public class EmployeeModel
     {
         
-        [Key]
+        [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name ="Employee ID")]
         public int Id { get; set; }
