@@ -1,5 +1,6 @@
 ﻿using EmployeeHR.Models;
 using Microsoft.EntityFrameworkCore;
+using EmployeeHR.ViewModels;
 
 
 namespace EmployeeHR.Data
@@ -13,5 +14,6 @@ namespace EmployeeHR.Data
         public DbSet<DepartmentModel> Departments { get; set; }
 
         public DbSet<PayrollModel> Payrolls {  get; set; }
+        public DbSet<EmployeeHR.ViewModels.DepartmentViewModel> DepartmentViewModel { get; set; } = default!;
     }
 }
