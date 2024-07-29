@@ -36,6 +36,18 @@
                 </div>
                 <div>
                     <vc:employee-cont></vc:employee-cont>
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <h5>Hello</h5> @User.Identity.Name;
+                        <a asp-action="Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Regester">Regester</a>
+                        <a asp-action="LogIn">Login</a> 
+                    }
+
                 </div>
             </div>
         </nav>

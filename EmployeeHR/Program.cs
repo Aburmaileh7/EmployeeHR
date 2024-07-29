@@ -1,5 +1,6 @@
 using EmployeeHR.Components;
 using EmployeeHR.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,9 @@ var ConnectionString = configuration.GetConnectionString("HRConnectionString");
 
 builder.Services.AddDbContext<HRDBContext>(Options => Options.UseSqlServer(ConnectionString));
 
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<HRDBContext>();
 
 builder.Services.AddScoped<EmployeeCont>();
 
