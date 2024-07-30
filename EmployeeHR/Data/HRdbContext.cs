@@ -39,5 +39,6 @@ namespace EmployeeHR.Data
         public DbSet<EmployeeHR.ViewModels.RegeisterViewModel> RegeisterViewModel { get; set; } = default!;
         public DbSet<EmployeeHR.ViewModels.LoginViewModel> LoginViewModel { get; set; } = default!;
         public DbSet<EmployeeHR.ViewModels.DepartmentViewModel> DepartmentViewModel { get; set; } = default!;
+        public DbSet<EmployeeHR.ViewModels.ManageUserViewModel> ManageUserViewModel { get; set; } = default!;
     }
 }

@@ -39,8 +39,14 @@
 
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <h5>Hello</h5> @User.Identity.Name;
-                        <a asp-action="Logout">Logout</a>
+                        <p> 
+                            Hello
+                       
+                       
+                        <a asp-Action="Manage" asp-Controller="Account">@User.Identity?.Name</a> |
+                           
+                        <a asp-action = "Logout" asp-Controller = "Account" > Logout </a>
+                        </p>
                     }
                     else
                     {

@@ -73,5 +73,63 @@ namespace EmployeeHR.Controllers
             }
             return View(model);
         }
+
+        #region logOut
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        #endregion
+
+        #region Manage
+        
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("Login");
+        }
+        #endregion
+
+        [HttpGet]
+        public async Task<IActionResult> Manage()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if(currentUser!= null)
+            {
+                var viewModel = new ManageUserViewModel
+                {
+                    UserName = currentUser.UserName,
+                    PhoneNumder = currentUser.PhoneNumber
+                };
+
+                return View(viewModel);
+            }
+            return View("Index", "Home");
+
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Manage(ManageUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    currentUser.PhoneNumber = model.PhoneNumder;
+                    await _userManager.UpdateAsync(currentUser);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
+
     }
+
 }
