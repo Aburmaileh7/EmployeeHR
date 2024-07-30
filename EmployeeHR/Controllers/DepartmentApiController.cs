@@ -2,30 +2,32 @@
 using EmployeeHR.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.Identity.Client;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 
 namespace EmployeeHR.Controllers
 {
     public class DepartmentApiController : Controller
     {
-        Uri BaseUri = new Uri("https://localhost:7117/api");
+       
         private readonly HttpClient _httpClient;
         public DepartmentApiController()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress= BaseUri;
+            _httpClient.BaseAddress= new Uri("https://localhost:7117/api");
         }
 
-        
 
-        
+
+
 
         public IActionResult Index()
         {
             
          
-            HttpResponseMessage responseMessage = _httpClient.GetAsync(_httpClient.BaseAddress+ "/Department/GetAll").Result;
+            HttpResponseMessage responseMessage = _httpClient.GetAsync(_httpClient.BaseAddress + "/Department/GetAll").Result;
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -53,9 +55,9 @@ namespace EmployeeHR.Controllers
             {
                 httpClient.BaseAddress = new Uri(_httpClient.BaseAddress + "/Department");
 
-                var respoonseMassge = httpClient.PostAsJsonAsync<DepartmentViewModel>("department", department);
-                respoonseMassge.Wait();
-                var response = respoonseMassge.Result;
+                var responseMassge = httpClient.PostAsJsonAsync<DepartmentViewModel>("department", department);
+                responseMassge.Wait();
+                var response = responseMassge.Result;
                 if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Index");
@@ -108,6 +110,22 @@ namespace EmployeeHR.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            HttpResponseMessage responseMessage = _httpClient.GetAsync(_httpClient.BaseAddress + $"/Department/GetById/{id}").Result;
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                string content = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var departments = JsonConvert.DeserializeObject<List<DepartmentViewModel>>(content);
+                return View(departments);
+
+            }
+
+            return View();
+        }
 
 
 
