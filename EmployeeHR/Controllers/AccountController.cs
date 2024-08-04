@@ -6,18 +6,18 @@ namespace EmployeeHR.Controllers
 {
     public class AccountController : Controller
     {
-       private UserManager<IdentityUser> _userManager;
-       private SignInManager<IdentityUser> _signInManager;
-       private RoleManager<IdentityRole> _roleManager; 
+        private UserManager<IdentityUser> _userManager;
+        private SignInManager<IdentityUser> _signInManager;
+        private RoleManager<IdentityRole> _roleManager;
 
 
-        public AccountController(UserManager<IdentityUser>userManager,
-            SignInManager<IdentityUser>signInManager,
+        public AccountController(UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
-            _signInManager=signInManager;
-            _roleManager = roleManager ;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -43,7 +43,7 @@ namespace EmployeeHR.Controllers
                 {
                     return RedirectToAction("Login", "Account");
                 }
-                foreach(var err in respone.Errors)
+                foreach (var err in respone.Errors)
                 {
                     ModelState.AddModelError(err.Code, err.Description);
                 }
@@ -84,7 +84,7 @@ namespace EmployeeHR.Controllers
         #endregion
 
         #region Manage
-        
+
         [HttpGet]
         public IActionResult AccessDenied()
         {
@@ -97,7 +97,7 @@ namespace EmployeeHR.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            if(currentUser!= null)
+            if (currentUser != null)
             {
                 var viewModel = new ManageUserViewModel
                 {

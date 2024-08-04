@@ -4,7 +4,8 @@ namespace EmployeeHR.ViewModels
 {
     public class ManageUserViewModel
     {
-        
+
+
         public string UserName { get; set; }
 
         [Required]

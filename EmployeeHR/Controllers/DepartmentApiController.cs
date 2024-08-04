@@ -120,14 +120,27 @@ namespace EmployeeHR.Controllers
                 string content = responseMessage.Content.ReadAsStringAsync().Result;
 
                 var departments = JsonConvert.DeserializeObject<List<DepartmentViewModel>>(content);
-                return View(departments);
+                return View();
 
             }
 
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            HttpResponseMessage responseMessage = _httpClient.DeleteAsync(_httpClient.BaseAddress + $"/Department?Id={id}").Result;
 
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+
+            }
+
+            return View();
+
+        }
 
     }
 }

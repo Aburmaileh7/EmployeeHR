@@ -6,7 +6,7 @@ namespace EmployeeHR.ViewModels
 {
     public class DepartmentViewModel
     {
-
+       
         public int Id { get; set; }
 
         [Required]

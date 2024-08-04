@@ -17,9 +17,7 @@ namespace EmployeeHR.Data
 
         public DbSet<DepartmentModel> Departments { get; set; }
 
-        public DbSet<PayrollModel> Payrolls {  get; set; }
-
-        //public DbSet<EmployeeHR.ViewModels.DepartmentViewModel> DepartmentViewModel { get; set; } = default!;
+        public DbSet<PayrollModel> Payrolls {  get; set; }       
 
 
         protected override void OnModelCreating(ModelBuilder builder)
