@@ -6,23 +6,22 @@
 
 <h1>Manage</h1>
 
-<h4>ManageUserViewModel</h4>
+<h4></h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Manage">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" readonly />
-                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PhoneNumder" class="control-label"></label>
                 <input asp-for="PhoneNumder" class="form-control" />
-                <span asp-validation-for="PhoneNumder" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a asp-action="Index" asp-controller="Home" class="btn btn-danger">Back to Home</a>

@@ -44,6 +44,7 @@ namespace EmployeeHR.Controllers
 
                 if (respone.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "User");
                     return RedirectToAction("Login", "Account");
                 }
                 foreach (var err in respone.Errors)
@@ -94,20 +95,12 @@ namespace EmployeeHR.Controllers
 
         #region Manage
 
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return RedirectToAction("Login");
-        }
-		#endregion
-
-		#region Manage
-
+     
 		[HttpGet]
         public async Task<IActionResult> Manage()
         {
             var currentUser = await _userManager.GetUserAsync(User);
-
+            //var user = await _userManager.FindByNameAsync(currentUser.UserName);
             if (currentUser != null)
             {
                 var viewModel = new ManageUserViewModel
@@ -118,10 +111,9 @@ namespace EmployeeHR.Controllers
 
                 return View(viewModel);
             }
+
+            
             return View("Index", "Home");
-
-
-
         }
 
         [HttpPost]
@@ -139,8 +131,13 @@ namespace EmployeeHR.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-		#endregion
+        #endregion
 
-	}
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("Login");
+        }
+    }
 
 }

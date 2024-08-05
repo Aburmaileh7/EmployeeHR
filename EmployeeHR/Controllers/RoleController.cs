@@ -1,10 +1,12 @@
 ﻿using EmployeeHR.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeHR.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -14,11 +16,12 @@ namespace EmployeeHR.Controllers
             _roleManager = roleManager;
         }
 
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var role = await _roleManager.Roles.ToListAsync();
-            return View(role);
+            var roles = await _roleManager.Roles.ToListAsync();
+            return View(roles);
         }
 
         [HttpPost]
@@ -30,6 +33,7 @@ namespace EmployeeHR.Controllers
             }
 
             var isRoleExists = await _roleManager.RoleExistsAsync(role.Name);
+            
             if (isRoleExists)
             {
                 ModelState.AddModelError("Name", "Role is Exist");
