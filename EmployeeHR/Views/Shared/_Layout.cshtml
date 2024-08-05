@@ -43,15 +43,15 @@
                             Hello
                        
                        
-                        <a asp-Action="Manage" asp-Controller="Account">@User.Identity?.Name</a> |
+                            <a asp-Action="Manage" asp-Controller="Account">@User.Identity?.Name</a> |
                            
                         <a asp-action = "Logout" asp-Controller = "Account" > Logout </a>
                         </p>
                     }
                     else
                     {
-                        <a asp-action="Regester">Regester</a>
-                        <a asp-action="LogIn">Login</a> 
+                        <a asp-action="Register" asp-Controller="Account">Register</a>
+                        <a asp-action="Login" asp-Controller="Account">Login</a>
                     }
 
                 </div>

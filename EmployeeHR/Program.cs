@@ -53,7 +53,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=DepartmentApi}/{action=Index}/{id?}");
+    pattern: "{controller=Department}/{action=Index}/{id?}");
 
 
 app.Run();

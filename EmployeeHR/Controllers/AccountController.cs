@@ -20,7 +20,9 @@ namespace EmployeeHR.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpGet]
+		#region Register
+
+		[HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -33,6 +35,7 @@ namespace EmployeeHR.Controllers
             {
                 IdentityUser user = new IdentityUser
                 {
+                   // UserName=new MailAddress(model.Email).User,
                     UserName = model.UserName,
                     Email = model.Email
                 };
@@ -52,7 +55,11 @@ namespace EmployeeHR.Controllers
             return View(model);
         }
 
-        [HttpGet]
+		#endregion
+
+		#region login
+
+		[HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -63,7 +70,7 @@ namespace EmployeeHR.Controllers
         {
             if (ModelState.IsValid)
             {
-                var respone = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                var respone = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
                 if (respone.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -74,8 +81,10 @@ namespace EmployeeHR.Controllers
             return View(model);
         }
 
-        #region logOut
-        [HttpGet]
+		#endregion
+
+		#region logOut
+		[HttpGet]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -90,9 +99,11 @@ namespace EmployeeHR.Controllers
         {
             return RedirectToAction("Login");
         }
-        #endregion
+		#endregion
 
-        [HttpGet]
+		#region Manage
+
+		[HttpGet]
         public async Task<IActionResult> Manage()
         {
             var currentUser = await _userManager.GetUserAsync(User);
@@ -128,8 +139,8 @@ namespace EmployeeHR.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+		#endregion
 
-
-    }
+	}
 
 }
